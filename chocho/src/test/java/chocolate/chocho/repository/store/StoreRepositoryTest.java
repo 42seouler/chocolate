@@ -4,7 +4,6 @@ import chocolate.chocho.entity.Address;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreUser;
 import chocolate.chocho.repository.storeuser.StoreUserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
