@@ -1,7 +1,9 @@
 package chocolate.chocho.repository.storeuser;
 
 import chocolate.chocho.entity.Address;
+import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreUser;
+import chocolate.chocho.repository.store.StoreRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ class StoreUserRepositoryTest {
     StoreUserRepository storeUserRepository;
 
     @Autowired
+    StoreRepository storeRepository;
+
+    @Autowired
     private TestEntityManager tm;
 
     @Test
@@ -39,5 +44,23 @@ class StoreUserRepositoryTest {
         assertThat(findStoreUser.getAddress().getCity()).isEqualTo(address.getCity());
         assertThat(findStoreUser.getAddress().getZipcode()).isEqualTo(address.getZipcode());
         assertThat(findStoreUser.getAddress().getStreet()).isEqualTo(address.getStreet());
+    }
+
+    @Test
+    public void checkStore() throws Exception {
+        //given
+        Address storeAddress = new Address("seoul", "gaepo-dong", "4242-42");
+        Address userAddress = new Address("seoul", "songpa-dong", "4242-42");
+        StoreUser storeUser = new StoreUser("nakim", userAddress);
+        tm.persist(storeUser);
+        Store store = new Store(storeUser, "starbucks", storeAddress);
+        tm.persist(store);
+        storeUser.registerStore(store);
+        //when
+        StoreUser findStoreUser = storeUserRepository.findById(storeUser.getId()).orElseThrow();
+        Store findStore = storeRepository.findById(store.getId()).orElseThrow();
+        //then
+        // 유저 스토어 검증
+        assertThat(findStoreUser.getStore().getId()).isEqualTo(findStore.getId());
     }
 }

@@ -17,4 +17,13 @@ public class StoreUser extends BaseUser {
     public StoreUser(String name, Address address) {
         super(name, address);
     }
+
+    public StoreUser(String name, Address address, Store store) {
+        super(name, address);
+        this.store = store;
+    }
+
+    public void registerStore(Store store) {
+       this.store = store;
+    }
 }
