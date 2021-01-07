@@ -14,7 +14,7 @@ public class StoreUser extends BaseUser {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    public StoreUser(String name) {
-        super(name);
+    public StoreUser(String name, Address address) {
+        super(name, address);
     }
 }

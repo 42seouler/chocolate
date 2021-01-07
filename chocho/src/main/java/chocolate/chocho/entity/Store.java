@@ -16,8 +16,13 @@ public class Store {
     private Long id;
     @OneToOne(mappedBy = "store", fetch = FetchType.LAZY)
     private StoreUser storeUser;
+    private String name;
+    @Embedded
+    private Address address;
 
-    public Store(StoreUser storeUser) {
+    public Store(StoreUser storeUser, String name, Address address) {
         this.storeUser = storeUser;
+        this.name = name;
+        this.address = address;
     }
 }

@@ -21,7 +21,8 @@ public abstract class BaseUser {
     @Embedded
     private Address address;
 
-    public BaseUser(String name) {
+    public BaseUser(String name, Address address) {
         this.name = name;
+        this.address = address;
     }
 }
