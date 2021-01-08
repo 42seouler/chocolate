@@ -3,5 +3,7 @@ package chocolate.chocho.applicaiton.storeuser.command;
 import java.util.UUID;
 
 public interface StoreUserService {
-    UUID registerStoreUser(StoreUserCmdDto dto);
+    UUID            registerStoreUser(StoreUserCmdDto dto);
+
+    StoreUserCmdDto updateStoreUser(UUID userId, StoreUserCmdDto dto);
 }

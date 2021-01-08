@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -23,7 +24,17 @@ public class StoreUser extends BaseUser {
         this.store = store;
     }
 
+    public StoreUser(UUID id, String name, Address address, Store store) {
+        super(id, name, address);
+        this.store = store;
+    }
+
     public void registerStore(Store store) {
         this.store = store;
+    }
+
+    public void update(StoreUser dto) {
+        super.update(dto.getName(), dto.getAddress());
+        this.store = dto.getStore();
     }
 }
