@@ -24,6 +24,6 @@ public class StoreUser extends BaseUser {
     }
 
     public void registerStore(Store store) {
-       this.store = store;
+        this.store = store;
     }
 }

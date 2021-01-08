@@ -37,7 +37,8 @@ public class StoreRepositoryTest {
         StoreUser findStoreUser = storeUserRepository.findById(storeUser.getId()).orElseThrow();
         //then
         // 스토어의 유저 검증
-        assertThat(findStore.getStoreUser()).isEqualTo(storeUser);
+        assertThat(findStore.getStoreUser()).isEqualTo(findStoreUser);
+        assertThat(findStore.getStoreUser().getId()).isEqualTo(findStoreUser.getId());
         // 스토어 아이디 검증
         assertThat(findStore.getId()).isEqualTo(store.getId());
         // 스토어 이름 검증

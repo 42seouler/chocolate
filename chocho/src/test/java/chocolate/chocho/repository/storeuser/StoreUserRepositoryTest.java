@@ -59,7 +59,7 @@ class StoreUserRepositoryTest {
         //when
         StoreUser findStoreUser = storeUserRepository.findById(storeUser.getId()).orElseThrow();
         Store findStore = storeRepository.findById(store.getId()).orElseThrow();
-        //then
+        //thenkj
         // 유저 스토어 검증
         assertThat(findStoreUser.getStore().getId()).isEqualTo(findStore.getId());
     }
