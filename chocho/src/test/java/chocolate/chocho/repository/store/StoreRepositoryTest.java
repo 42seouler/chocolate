@@ -8,10 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
+@Transactional
 public class StoreRepositoryTest {
 
     @Autowired
@@ -20,18 +24,16 @@ public class StoreRepositoryTest {
     @Autowired
     StoreUserRepository storeUserRepository;
 
-    @Autowired
-    TestEntityManager tm;
-
     @Test
+    @Rollback(value = false)
     public void createStore() throws Exception {
         //given
         Address storeAddress = new Address("seoul", "songpa-dong", "4242-42");
         Address userAddress = new Address("seoul", "gaepo-dong", "4242-42");
         StoreUser storeUser = new StoreUser("42seouler", userAddress);
-        tm.persist(storeUser);
+        storeUserRepository.save(storeUser);
         Store store = new Store(storeUser,"store", storeAddress);
-        tm.persist(store);
+        storeRepository.save(store);
         //when
         Store findStore = storeRepository.findById(store.getId()).orElseThrow();
         StoreUser findStoreUser = storeUserRepository.findById(storeUser.getId()).orElseThrow();

@@ -24,9 +24,8 @@ public class StoreUser extends BaseUser {
         this.store = store;
     }
 
-    public StoreUser(UUID id, String name, Address address, Store store) {
+    public StoreUser(UUID id, String name, Address address) {
         super(id, name, address);
-        this.store = store;
     }
 
     public void registerStore(Store store) {

@@ -4,21 +4,16 @@ import chocolate.chocho.entity.Address;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreUser;
 import chocolate.chocho.repository.store.StoreRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@Transactional
 class StoreUserRepositoryTest {
 
     @Autowired
@@ -27,15 +22,12 @@ class StoreUserRepositoryTest {
     @Autowired
     StoreRepository storeRepository;
 
-    @Autowired
-    private TestEntityManager tm;
-
     @Test
     public void createStoreUser() throws Exception {
         //given
         Address address = new Address("seoul", "song-pa", "145-45");
         StoreUser storeUser = new StoreUser("testUser", address);
-        tm.persist(storeUser);
+        storeUserRepository.save(storeUser);
         //when
         StoreUser findStoreUser = storeUserRepository.findById(storeUser.getId()).orElseThrow();
         //then
@@ -47,19 +39,20 @@ class StoreUserRepositoryTest {
     }
 
     @Test
+    @Rollback(value = false)
     public void checkStore() throws Exception {
         //given
         Address storeAddress = new Address("seoul", "gaepo-dong", "4242-42");
         Address userAddress = new Address("seoul", "songpa-dong", "4242-42");
         StoreUser storeUser = new StoreUser("nakim", userAddress);
-        tm.persist(storeUser);
+        storeUserRepository.save(storeUser);
         Store store = new Store(storeUser, "starbucks", storeAddress);
-        tm.persist(store);
+        storeRepository.save(store);
         storeUser.registerStore(store);
         //when
         StoreUser findStoreUser = storeUserRepository.findById(storeUser.getId()).orElseThrow();
         Store findStore = storeRepository.findById(store.getId()).orElseThrow();
-        //thenkj
+        //then
         // 유저 스토어 검증
         assertThat(findStoreUser.getStore().getId()).isEqualTo(findStore.getId());
     }
