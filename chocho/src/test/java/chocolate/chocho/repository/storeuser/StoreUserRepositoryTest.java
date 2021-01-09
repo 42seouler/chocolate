@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @Transactional
+@Rollback(false)
 class StoreUserRepositoryTest {
 
     @Autowired
@@ -39,7 +40,6 @@ class StoreUserRepositoryTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void checkStore() throws Exception {
         //given
         Address storeAddress = new Address("seoul", "gaepo-dong", "4242-42");

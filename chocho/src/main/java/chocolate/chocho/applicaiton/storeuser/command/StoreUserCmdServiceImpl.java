@@ -6,13 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
-public class StoreUserServiceImpl implements StoreUserService {
+public class StoreUserCmdServiceImpl implements StoreUserCmdService {
 
     private final StoreUserRepository storeUserRepository;
 
@@ -24,10 +23,17 @@ public class StoreUserServiceImpl implements StoreUserService {
     }
 
     @Override
-    public StoreUserCmdDto updateStoreUser(UUID userId, StoreUserCmdDto dto) {
+    public StoreUserCmdDto updateStoreUserInfo(UUID userId, StoreUserCmdDto dto) {
         StoreUser findStoreUser = storeUserRepository.findById(userId).orElseThrow();
         findStoreUser.update(transferDtoToEntity(dto));
         return transferEntityToDto(findStoreUser);
+    }
+
+    @Override
+    public void deleteStoreUser(UUID userId) {
+        StoreUser findStoreUser = storeUserRepository.findById(userId).orElseThrow();
+        //todo storeSerivce.deleteStore()
+        storeUserRepository.delete(findStoreUser);
     }
 
     public StoreUser transferDtoToEntity(StoreUserCmdDto dto) {

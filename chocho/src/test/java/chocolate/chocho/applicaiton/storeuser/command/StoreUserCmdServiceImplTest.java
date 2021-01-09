@@ -1,7 +1,6 @@
 package chocolate.chocho.applicaiton.storeuser.command;
 
 import chocolate.chocho.entity.Address;
-import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreUser;
 import chocolate.chocho.repository.storeuser.StoreUserRepository;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -18,19 +16,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class StoreUserServiceImplTest {
+class StoreUserCmdServiceImplTest {
 
     @Mock
     StoreUserRepository storeUserRepository;
 
     @InjectMocks
-    StoreUserServiceImpl storeUserService;
+    StoreUserCmdServiceImpl storeUserService;
 
     @Test
     public void 유저등록하기() throws Exception {
         //given
         Address address = createAddress("seoul", "gaepo-dong", "42-42");
-        StoreUserCmdDto dto = new StoreUserCmdDto("nakim", address);
+        StoreUserCmdDto dto = createCmdDto(address, "nakim");
         StoreUser storeUser = createStoreUser(address, "Hakim");
        //when
         when(storeUserRepository.save(any(StoreUser.class))).thenReturn(storeUser);
@@ -47,12 +45,28 @@ class StoreUserServiceImplTest {
         Address address = createAddress("busan", "songpa-dong", "4242-42");
         StoreUser storeUser = createStoreUser(address, "wow");
         // 수정 된 유저 정보
-        StoreUserCmdDto updateInfo = new StoreUserCmdDto("Hakim", address);
+        StoreUserCmdDto updateInfo = createCmdDto(address, "Hakim");
         //when
         when(storeUserRepository.findById(any(UUID.class))).thenReturn(Optional.of(storeUser));
-        storeUserService.updateStoreUser(storeUser.getId(), updateInfo);
+        storeUserService.updateStoreUserInfo(storeUser.getId(), updateInfo);
         //then
         assertEquals(storeUser.getName(), updateInfo.getName());
+    }
+
+    @Test
+    public void 유저삭제하기() throws Exception {
+        //given
+        Address busan = createAddress("busan", "songpa-dong", "4242-42");
+        StoreUser user = createStoreUser(busan, "nakim");
+        //when
+        when(storeUserRepository.findById(any(UUID.class))).thenReturn(Optional.of(user));
+        //then
+        storeUserService.deleteStoreUser(user.getId());
+        verify(storeUserRepository).delete(user);
+    }
+
+    private StoreUserCmdDto createCmdDto(Address address, String name) {
+        return new StoreUserCmdDto(name, address);
     }
 
     private StoreUser createStoreUser(Address address, String name) {
