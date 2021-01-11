@@ -8,5 +8,7 @@ public interface EmployerCommandService {
 
     UUID            create(EmployerCmdDto dto);
 
-    EmployerCmdDto update(UUID employerId, EmployerCmdDto dto);
+    EmployerCmdDto  update(UUID employerId, EmployerCmdDto dto);
+
+    void            delete(UUID employerId);
 }

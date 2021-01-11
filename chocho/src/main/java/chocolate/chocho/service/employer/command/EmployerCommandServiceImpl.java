@@ -33,6 +33,13 @@ public class EmployerCommandServiceImpl implements EmployerCommandService {
         return entityToDto(findEmployer);
     }
 
+    @Override
+    public void delete(UUID employerId) {
+        //todo 오류 검사 추가하기
+        Employer findEmployer = employerRepository.findById(employerId).orElseThrow();
+        employerRepository.delete(findEmployer);
+    }
+
     EmployerCmdDto entityToDto(Employer employer) {
         return new EmployerCmdDto(employer.getName(), employer.getAddress());
     }

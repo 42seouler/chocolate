@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -55,12 +56,25 @@ class EmployerCommandServiceImplTest {
         Employer employer = new Employer(UUID.randomUUID(), "busaner", address);
         Address updateAddress = createAddress("busan", "gaepon-dong", "2424");
         EmployerCmdDto employerCmdDto = new EmployerCmdDto("42seouler", updateAddress);
-        //when
         when(employerRepository.findById(any(UUID.class))).thenReturn(Optional.of(employer));
+        //when
         EmployerCmdDto updateEmployer = employerCommandService.update(employer.getId(), employerCmdDto);
         //then
         assertEquals(updateEmployer.getName(),employerCmdDto.getName());
         assertEquals(updateEmployer.getAddress(),employerCmdDto.getAddress());
+    }
+
+    @Test
+    public void deleteEmployer() throws Exception {
+        //given
+        Employer employer = createEmployer("42seouler",
+                createAddress("seoul", "gaepo-dong", "4242"));
+        when(employerRepository.findById(any(UUID.class))).thenReturn(Optional.of(employer));
+        doNothing().when(employerRepository).delete(any(Employer.class));
+        //when
+        employerCommandService.delete(employer.getId());
+        //then
+        verify(employerRepository, times(1)).delete(any(Employer.class));
     }
 
     Employer createEmployer(String name, Address address) {
