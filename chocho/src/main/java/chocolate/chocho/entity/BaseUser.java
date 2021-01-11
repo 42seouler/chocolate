@@ -34,4 +34,9 @@ public abstract class BaseUser {
         this.name = name;
         this.address = address;
     }
+
+    public void update(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
 }
