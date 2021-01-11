@@ -23,16 +23,16 @@ public class Store {
     @JoinColumn(name = "Employer_id")
     private Employer    employer;
 
-    public Store(String name, Employer employer, Address address) {
+    public Store(String name, Address address, Employer employer) {
         this.name = name;
-        this.employer = employer;
         this.address = address;
+        this.employer = employer;
     }
 
-    public Store(UUID id, String name, Employer employer, Address address) {
+    public Store(UUID id, String name, Address address, Employer employer) {
         this.id = id;
         this.name = name;
-        this.employer = employer;
         this.address = address;
+        this.employer = employer;
     }
 }

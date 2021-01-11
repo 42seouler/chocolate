@@ -68,7 +68,7 @@ class StoreQueryServiceImplTest {
    }
 
    private Store createStore(Address address, String name) {
-      return new Store(UUID.randomUUID(), name, null, address);
+      return new Store(UUID.randomUUID(), name, address, null);
    }
 
    private Address createAddress(String city, String street, String zipcode) {

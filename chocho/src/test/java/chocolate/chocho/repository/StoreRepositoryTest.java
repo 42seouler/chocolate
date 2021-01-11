@@ -26,7 +26,7 @@ class StoreRepositoryTest {
         Address address = createAddress("seoul", "songpa-dong", "4242");
         Employer employer = createEmployer("nakim", address);
         tm.persist(employer);
-        Store store = new Store("starbucks", employer, createAddress("busan", "gaepo-dong", "2424"));
+        Store store = new Store("starbucks", createAddress("busan", "gaepo-dong", "2424"), employer);
         tm.persist(store);
         //when
         Store findStore = storeRepository.findById(store.getId()).orElseThrow();
