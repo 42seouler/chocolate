@@ -18,10 +18,10 @@ public class Store {
     @Column(name = "store_id", columnDefinition = "BINARY(16)")
     private UUID        id;
     private String      name;
+    private Address     address;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "Employer_id")
     private Employer    employer;
-    private Address     address;
 
     public Store(String name, Employer employer, Address address) {
         this.name = name;
