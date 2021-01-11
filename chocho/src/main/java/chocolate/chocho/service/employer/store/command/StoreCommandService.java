@@ -6,5 +6,7 @@ import java.util.UUID;
 
 public interface StoreCommandService {
 
-   UUID create(StoreCmdDto dto);
+   UUID        create(StoreCmdDto dto);
+
+   StoreCmdDto update(UUID storeId, StoreCmdDto dto);
 }

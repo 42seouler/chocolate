@@ -35,4 +35,10 @@ public class Store {
         this.address = address;
         this.employer = employer;
     }
+
+    public void update(String name, Address address, Employer employer) {
+        this.name = name;
+        this.address = address;
+        this.employer = employer;
+    }
 }

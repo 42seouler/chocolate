@@ -23,6 +23,13 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         return saveStore.getId();
     }
 
+    @Override
+    public StoreCmdDto update(UUID storeId, StoreCmdDto dto) {
+        Store store = storeRepository.findById(storeId).orElseThrow();
+        store.update(dto.getName(), dto.getAddress(), dto.getEmployer());
+        return entityToDto(store);
+    }
+
     StoreCmdDto entityToDto(Store store) {
         return new StoreCmdDto(store.getName(), store.getAddress(), store.getEmployer());
     }
