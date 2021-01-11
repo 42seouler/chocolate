@@ -61,7 +61,7 @@ class EmployerQueryServiceImplTest {
         PageImpl<Employer> pageEmployers = new PageImpl<Employer>(employers, PageRequest.of(0, 6), 6);
         //when
         when(employerRepository.findAll(any(Pageable.class))).thenReturn(pageEmployers);
-        Page<EmployerQueryDto> result = employerQueryService.findByAll(0, 6);
+        Page<EmployerQueryDto> result = employerQueryService.findAll(0, 6);
         //then
         assertEquals(result.getTotalElements(),pageEmployers.getTotalElements());
         assertEquals(result.getSize(), pageEmployers.getSize());

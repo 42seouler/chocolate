@@ -27,7 +27,7 @@ public class EmployerQueryServiceImpl implements EmployerQueryService {
     }
 
     @Override
-    public Page<EmployerQueryDto> findByAll(int page, int size) {
+    public Page<EmployerQueryDto> findAll(int page, int size) {
         //todo 오류 처리 추가하기
         Page<Employer> employers = employerRepository.findAll(PageRequest.of(page, size));
         return employers.map(this::convertToDto);

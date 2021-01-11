@@ -4,6 +4,8 @@ import chocolate.chocho.dto.StoreQueryDto;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,12 @@ public class StoreQueryServiceImpl implements StoreQueryService {
         //todo 오류 검증 추가하기
         Store store = storeRepository.findById(storeId).orElseThrow();
         return entityToDto(store);
+    }
+
+    @Override
+    public Page<StoreQueryDto> findAll(int page, int size) {
+        Page<Store> stores = storeRepository.findAll(PageRequest.of(page, size));
+        return stores.map(this::entityToDto);
     }
 
     private StoreQueryDto entityToDto(Store store) {
