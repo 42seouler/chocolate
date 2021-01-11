@@ -30,6 +30,12 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         return entityToDto(store);
     }
 
+    @Override
+    public void delete(UUID storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow();
+        storeRepository.delete(store);
+    }
+
     StoreCmdDto entityToDto(Store store) {
         return new StoreCmdDto(store.getName(), store.getAddress(), store.getEmployer());
     }

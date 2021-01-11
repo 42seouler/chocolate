@@ -9,4 +9,6 @@ public interface StoreCommandService {
    UUID        create(StoreCmdDto dto);
 
    StoreCmdDto update(UUID storeId, StoreCmdDto dto);
+
+   void        delete(UUID storeId);
 }

@@ -55,6 +55,19 @@ class StoreCommandServiceImplTest {
         assertEquals(result.getEmployer(), storeCmdDto.getEmployer());
     }
 
+    @Test
+    public void deleteStore() throws Exception {
+        //given
+        Address address = createAddress("seoul", "songpa-dong", "4242");
+        Store store = new Store(UUID.randomUUID(), "starbucks", address, null);
+        //when
+        when(storeRepository.findById(any(UUID.class))).thenReturn(Optional.of(store));
+        storeCommandService.delete(store.getId());
+        //then
+        verify(storeRepository).delete(any(Store.class));
+    }
+
+
     private Address createAddress(String city, String street, String zipcode) {
         return new Address(city, street, zipcode);
     }
