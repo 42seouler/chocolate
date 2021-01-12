@@ -9,5 +9,6 @@ import java.util.UUID;
 public interface EmployerQueryService {
 
     EmployerQueryDto            findById(UUID employerId);
+
     Page<EmployerQueryDto>      findAll(int page, int size);
 }

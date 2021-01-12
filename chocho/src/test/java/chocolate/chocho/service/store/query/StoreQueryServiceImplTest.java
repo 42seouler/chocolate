@@ -1,22 +1,18 @@
-package chocolate.chocho.service.employer.store.query;
+package chocolate.chocho.service.store.query;
 
 import chocolate.chocho.dto.StoreQueryDto;
 import chocolate.chocho.entity.Address;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.repository.StoreRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

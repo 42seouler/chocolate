@@ -19,9 +19,11 @@ public class Store {
     private UUID        id;
     private String      name;
     private Address     address;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Employer_id")
     private Employer    employer;
+    @OneToOne(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private JobOpening jobOpening;
 
     public Store(String name, Address address, Employer employer) {
         this.name = name;
@@ -36,9 +38,13 @@ public class Store {
         this.employer = employer;
     }
 
-    public void update(String name, Address address, Employer employer) {
+    public void update(String name, Address address) {
         this.name = name;
         this.address = address;
-        this.employer = employer;
+    }
+
+    //연관 관계 메서드
+    public void createJobOpening() {
+        this.jobOpening = new JobOpening(this);
     }
 }

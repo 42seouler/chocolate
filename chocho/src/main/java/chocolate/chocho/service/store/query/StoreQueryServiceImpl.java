@@ -1,4 +1,4 @@
-package chocolate.chocho.service.employer.store.query;
+package chocolate.chocho.service.store.query;
 
 import chocolate.chocho.dto.StoreQueryDto;
 import chocolate.chocho.entity.Store;

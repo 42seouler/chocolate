@@ -1,7 +1,10 @@
-package chocolate.chocho.service.employer.store.command;
+package chocolate.chocho.service.store.command;
 
 import chocolate.chocho.dto.StoreCmdDto;
+import chocolate.chocho.entity.Employer;
+import chocolate.chocho.entity.JobOpening;
 import chocolate.chocho.entity.Store;
+import chocolate.chocho.repository.EmployerRepository;
 import chocolate.chocho.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +17,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StoreCommandServiceImpl implements StoreCommandService {
 
-    private final StoreRepository storeRepository;
+    private final StoreRepository       storeRepository;
+    private final EmployerRepository    employerRepository;
 
     @Override
-    public UUID create(StoreCmdDto dto) {
-        Store newStore = new Store(dto.getName(), dto.getAddress(), dto.getEmployer());
+    public UUID create(UUID employerId, StoreCmdDto dto) {
+        Employer employer = employerRepository.findById(employerId).orElseThrow();
+        Store newStore = new Store(dto.getName(), dto.getAddress(), employer);
+        newStore.createJobOpening();
         Store saveStore = storeRepository.save(newStore);
         return saveStore.getId();
     }
@@ -26,7 +32,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     @Override
     public StoreCmdDto update(UUID storeId, StoreCmdDto dto) {
         Store store = storeRepository.findById(storeId).orElseThrow();
-        store.update(dto.getName(), dto.getAddress(), dto.getEmployer());
+        store.update(dto.getName(), dto.getAddress());
         return entityToDto(store);
     }
 
@@ -37,6 +43,6 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     }
 
     StoreCmdDto entityToDto(Store store) {
-        return new StoreCmdDto(store.getName(), store.getAddress(), store.getEmployer());
+        return new StoreCmdDto(store.getName(), store.getAddress());
     }
 }

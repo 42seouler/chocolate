@@ -11,11 +11,9 @@ public class StoreCmdDto {
 
     private String      name;
     private Address     address;
-    private Employer    employer;
 
-    public StoreCmdDto(String name, Address address, Employer employer) {
+    public StoreCmdDto(String name, Address address) {
         this.name = name;
         this.address = address;
-        this.employer = employer;
     }
 }

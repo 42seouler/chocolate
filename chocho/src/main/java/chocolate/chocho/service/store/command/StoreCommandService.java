@@ -1,4 +1,4 @@
-package chocolate.chocho.service.employer.store.command;
+package chocolate.chocho.service.store.command;
 
 import chocolate.chocho.dto.StoreCmdDto;
 
@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface StoreCommandService {
 
-   UUID        create(StoreCmdDto dto);
+   UUID        create(UUID employerId, StoreCmdDto dto);
 
    StoreCmdDto update(UUID storeId, StoreCmdDto dto);
 
