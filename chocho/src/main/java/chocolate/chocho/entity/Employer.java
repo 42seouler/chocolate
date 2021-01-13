@@ -19,8 +19,4 @@ public class Employer extends BaseUser {
     public Employer(UUID id, String name, Address address) {
         super(id, name, address);
     }
-
-    public void update(String name, Address address) {
-        super.update(name, address);
-    }
 }

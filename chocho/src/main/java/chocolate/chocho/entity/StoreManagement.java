@@ -8,15 +8,17 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class JobPost {
+public class StoreManagement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    private Store   store;
-    private String  title;
-    private String  body;
+    private Store store;
+
+    public StoreManagement(Store store) {
+        this.store = store;
+    }
 }

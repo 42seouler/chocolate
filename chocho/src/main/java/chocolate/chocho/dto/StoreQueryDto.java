@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class StoreQueryDto {
 
     private String      name;
-    private Address     address;
-    private Employer    employer;
+    private Address address;
+    private Employer employer;
 
     public StoreQueryDto(String name, Address address, Employer employer) {
         this.name = name;

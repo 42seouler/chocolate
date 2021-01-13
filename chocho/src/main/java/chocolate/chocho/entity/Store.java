@@ -15,29 +15,17 @@ public class Store {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "store_id", columnDefinition = "BINARY(16)")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID        id;
     private String      name;
     private Address     address;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Employer_id")
+    @JoinColumn(name = "employer_id")
     private Employer    employer;
 
     public Store(String name, Address address, Employer employer) {
         this.name = name;
         this.address = address;
         this.employer = employer;
-    }
-
-    public Store(UUID id, String name, Address address, Employer employer) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.employer = employer;
-    }
-
-    public void update(String name, Address address) {
-        this.name = name;
-        this.address = address;
     }
 }
