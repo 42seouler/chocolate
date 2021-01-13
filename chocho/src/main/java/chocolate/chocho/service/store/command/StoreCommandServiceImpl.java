@@ -29,9 +29,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     public UUID create(UUID employerId, StoreCmdDto dto) {
         Employer employer = employerRepository.findById(employerId).orElseThrow();
         Store newStore = new Store(dto.getName(), dto.getAddress(), employer);
-        Store saveStore = storeRepository.save(newStore);
         jobOpeningRepository.save(new JobOpening(newStore));
         postManagementRepository.save(new PostManagement(newStore));
+        Store saveStore = storeRepository.save(newStore);
         return saveStore.getId();
     }
 

@@ -60,6 +60,24 @@ class StoreCommandServiceImplTest {
         assertEquals(findStore.getId(), findPostManagement.getStore().getId());
     }
 
+    @Test
+    public void updateStore() throws Exception {
+        Employer employer = new Employer("seouler",
+                createAddress("seoul", "songpa", "42"));
+        employerRepository.save(employer);
+        StoreCmdDto storeCmdDto = new StoreCmdDto("starbucks",
+                createAddress("busan", "gaepo", "24"));
+        UUID uuid = storeCommandService.create(employer.getId(), storeCmdDto);
+        StoreCmdDto updateStoreCmdDto = new StoreCmdDto("coffeebean",
+                createAddress("incheon", "unknown", "20"));
+        //when
+        StoreCmdDto updateStore = storeCommandService.update(uuid, updateStoreCmdDto);
+        //then
+        assertEquals(updateStore.getName(), updateStoreCmdDto.getName());
+        assertEquals(updateStore.getAddress(), updateStoreCmdDto.getAddress());
+    }
+
+
 
     private Address createAddress(String city, String street, String zipcode) {
         return new Address(city, street, zipcode);
