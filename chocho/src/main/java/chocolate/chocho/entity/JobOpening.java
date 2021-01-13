@@ -24,10 +24,12 @@ public class JobOpening {
 
     public JobOpening(Store store) {
         this.store = store;
+        this.status = JobOpeningStatus.CLOSE;
     }
 
     public JobOpening(Long id, Store store) {
         this.id = id;
         this.store = store;
+        this.status = JobOpeningStatus.CLOSE;
     }
 }
