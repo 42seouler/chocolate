@@ -18,6 +18,8 @@ public class StoreManagement {
     @JoinColumn(name = "store_id")
     private Store store;
 
+
+
     public StoreManagement(Store store) {
         this.store = store;
     }

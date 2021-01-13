@@ -23,6 +23,11 @@ public class Store {
     @JoinColumn(name = "employer_id")
     private Employer    employer;
 
+    public void update(String name, Address address) {
+       this.name = name;
+       this.address = address;
+    }
+
     public Store(String name, Address address, Employer employer) {
         this.name = name;
         this.address = address;
