@@ -77,6 +77,23 @@ class StoreCommandServiceImplTest {
         assertEquals(updateStore.getAddress(), updateStoreCmdDto.getAddress());
     }
 
+    @Test
+    public void deleteStore() throws Exception {
+        //given
+        Employer employer = new Employer("seouler",
+                createAddress("seoul", "songpa", "42"));
+        employerRepository.save(employer);
+        StoreCmdDto storeCmdDto = new StoreCmdDto("starbucks",
+                createAddress("busan", "gaepo", "24"));
+        UUID uuid = storeCommandService.create(employer.getId(), storeCmdDto);
+        //when
+        storeCommandService.delete(uuid);
+        //then
+        assertEquals(0, storeRepository.count());
+        assertEquals(0, jobOpeningRepository.count());
+        assertEquals(0, postManagementRepository.count());
+    }
+
 
 
     private Address createAddress(String city, String street, String zipcode) {
