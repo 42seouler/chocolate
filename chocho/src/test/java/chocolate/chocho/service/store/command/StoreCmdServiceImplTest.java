@@ -4,7 +4,6 @@ import chocolate.chocho.dto.StoreCmdDto;
 import chocolate.chocho.entity.Address;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreMgmt;
-import chocolate.chocho.repository.EmployerRepository;
 import chocolate.chocho.repository.StoreMgmtRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
