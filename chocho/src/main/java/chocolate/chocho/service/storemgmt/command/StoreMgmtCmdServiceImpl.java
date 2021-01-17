@@ -1,9 +1,11 @@
-package chocolate.chocho.service.store.command;
+package chocolate.chocho.service.storemgmt.command;
 
 import chocolate.chocho.dto.StoreCmdDto;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreMgmt;
+import chocolate.chocho.entity.user.User;
 import chocolate.chocho.repository.StoreMgmtRepository;
+import chocolate.chocho.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,15 +15,16 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StoreCmdServiceImpl implements StoreCmdService {
+public class StoreMgmtCmdServiceImpl implements StoreMgmtCmdService {
 
-    private final EmployerRepository    employerRepository;
+    private final UserRepository userRepository;
     private final StoreMgmtRepository   storeMgmtRepository;
 
     @Override
-    public Long create(UUID employerId, StoreCmdDto dto) {
-        Employer employer = employerRepository.findById(employerId).orElseThrow();
-        Store store = new Store(dto.getName(), dto.getAddress(), employer);
+    public Long create(UUID userId, StoreCmdDto dto) {
+        //todo 유저의 역활이 EMPLOYER 인지 확인
+        User user = userRepository.findById(userId).orElseThrow();
+        Store store = new Store(dto.getName(), dto.getAddress(), user);
         StoreMgmt storeMgmt = new StoreMgmt(store);
         storeMgmtRepository.save(storeMgmt);
         return storeMgmt.getId();

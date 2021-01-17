@@ -1,5 +1,6 @@
-package chocolate.chocho.entity;
+package chocolate.chocho.entity.user;
 
+import chocolate.chocho.entity.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

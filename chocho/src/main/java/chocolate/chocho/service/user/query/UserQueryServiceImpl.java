@@ -1,7 +1,7 @@
 package chocolate.chocho.service.user.query;
 
 import chocolate.chocho.dto.UserQueryDto;
-import chocolate.chocho.entity.User;
+import chocolate.chocho.entity.user.User;
 import chocolate.chocho.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

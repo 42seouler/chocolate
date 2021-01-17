@@ -1,11 +1,11 @@
-package chocolate.chocho.service.store.command;
+package chocolate.chocho.service.storemgmt.command;
 
 import chocolate.chocho.dto.StoreCmdDto;
 
 import java.util.UUID;
 
-public interface StoreCmdService {
-    Long create(UUID employerId, StoreCmdDto dto);
+public interface StoreMgmtCmdService {
+    Long create(UUID userId, StoreCmdDto dto);
 
     StoreCmdDto update(Long storeMgmtId, StoreCmdDto dto);
 

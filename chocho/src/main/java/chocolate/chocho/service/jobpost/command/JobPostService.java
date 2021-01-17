@@ -6,7 +6,9 @@ import java.util.UUID;
 
 public interface JobPostService {
 
-    Long create(UUID storeId, JobPostCmdDto Dto);
+    Long            create(Long storeId, JobPostCmdDto Dto);
 
+    JobPostCmdDto   update(Long postId, Long storeId, JobPostCmdDto dto);
 
+    void            delete(Long postId, Long storeId);
 }

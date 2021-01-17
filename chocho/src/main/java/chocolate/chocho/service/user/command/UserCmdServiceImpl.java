@@ -1,7 +1,7 @@
 package chocolate.chocho.service.user.command;
 
 import chocolate.chocho.dto.UserCmdDto;
-import chocolate.chocho.entity.User;
+import chocolate.chocho.entity.user.User;
 import chocolate.chocho.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

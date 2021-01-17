@@ -1,5 +1,6 @@
 package chocolate.chocho.entity;
 
+import chocolate.chocho.entity.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,24 +14,22 @@ import java.util.UUID;
 public class Store {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID        id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long        id;
     private String      name;
     private Address     address;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employer_id")
-    private Employer    employer;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User        user;
 
     public void update(String name, Address address) {
        this.name = name;
        this.address = address;
     }
 
-    public Store(String name, Address address, Employer employer) {
+    public Store(String name, Address address, User user) {
         this.name = name;
         this.address = address;
-        this.employer = employer;
+        this.user = user;
     }
 }

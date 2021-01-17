@@ -1,6 +1,5 @@
 package chocolate.chocho.entity;
 
-import chocolate.chocho.service.store.query.StoreQueryServiceImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,5 +26,11 @@ public class JobPost {
         this.title = title;
         this.body = body;
         this.jobOpening = JobOpening.OPEN;
+    }
+
+    public void update(String title, String body, JobOpening jobOpening) {
+        this.title = title;
+        this.body = body;
+        this.jobOpening = jobOpening;
     }
 }

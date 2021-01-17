@@ -1,17 +1,24 @@
 package chocolate.chocho.service.jobpost.command;
 
 import chocolate.chocho.dto.JobPostCmdDto;
+import chocolate.chocho.dto.StoreCmdDto;
 import chocolate.chocho.entity.Address;
 import chocolate.chocho.entity.JobPost;
 import chocolate.chocho.entity.Store;
+import chocolate.chocho.entity.user.User;
 import chocolate.chocho.repository.JobPostRepository;
+import chocolate.chocho.repository.StoreMgmtRepository;
 import chocolate.chocho.repository.StoreRepository;
+import chocolate.chocho.repository.UserRepository;
+import chocolate.chocho.service.storemgmt.command.StoreMgmtCmdServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,38 +27,37 @@ import static org.junit.jupiter.api.Assertions.*;
 class JobPostServiceImplTest {
 
     @Autowired
-    EmployerRepository  employerRepository;
+    StoreRepository storeRepository;
     @Autowired
-    StoreRepository     storeRepository;
+    JobPostRepository jobPostRepository;
     @Autowired
-    JobPostRepository   jobPostRepository;
+    StoreMgmtRepository storeMgmtRepository;
     @Autowired
-    JobPostServiceImpl  jobPostService;
-    Store               store;
+    JobPostServiceImpl jobPostService;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    StoreMgmtCmdServiceImpl storeMgmtCmdService;
+    Store   store;
 
     @BeforeEach
-    void init() {
-        Address employerAddress = createAddress("city", "street", "zipcode");
-        Employer employer = employerRepository.save(new Employer("seouler", employerAddress));
-        Address address = createAddress("seoul", "songpa-dong", "4242");
-        store =  storeRepository.save(new Store("starbucks", address, employer));
+    void setup() {
+        User seouler = new User("seouler", new Address());
+        userRepository.save(seouler);
+        StoreCmdDto storeCmdDto = new StoreCmdDto("starbucks", new Address());
+        storeMgmtCmdService.create(seouler.getId(), storeCmdDto);
+        store = storeRepository.findByUser(seouler).orElseThrow();
     }
 
     @Test
     @Rollback(value = false)
     public void createJobPost() throws Exception {
         //given
-        JobPostCmdDto jobPostCmdDto = new JobPostCmdDto("42seoul 이야기", "42로 오세요");
+        JobPostCmdDto jobPostCmdDto = new JobPostCmdDto("sample", "sample_body");
         //when
-        Long jobPostId = jobPostService.create(store.getId(), jobPostCmdDto);
+        Long postId = jobPostService.create(store.getId(), jobPostCmdDto);
         //then
-        JobPost findJobPost = jobPostRepository.findById(jobPostId).orElseThrow();
-        assertEquals(jobPostCmdDto.getTitle(), findJobPost.getTitle());
-        assertEquals(jobPostCmdDto.getBody(), findJobPost.getBody());
+        JobPost jobPost = jobPostRepository.findById(postId).orElseThrow();
+        Assertions.assertEquals(jobPostCmdDto.getTitle(), jobPost.getTitle());
     }
-
-    private Address createAddress(String city, String street, String zipcode) {
-        return new Address(city, street, zipcode);
-    }
-
 }
