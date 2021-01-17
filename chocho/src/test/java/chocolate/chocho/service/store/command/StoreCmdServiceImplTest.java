@@ -4,11 +4,10 @@ import chocolate.chocho.dto.StoreCmdDto;
 import chocolate.chocho.entity.Address;
 import chocolate.chocho.entity.Employer;
 import chocolate.chocho.entity.Store;
-import chocolate.chocho.entity.StoreManagement;
+import chocolate.chocho.entity.StoreMgmt;
 import chocolate.chocho.repository.EmployerRepository;
-import chocolate.chocho.repository.StoreManagementRepository;
+import chocolate.chocho.repository.StoreMgmtRepository;
 import chocolate.chocho.repository.StoreRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,7 @@ class StoreCmdServiceImplTest {
     @Autowired
     EmployerRepository          employerRepository;
     @Autowired
-    StoreRepository             storeRepository;
-    @Autowired
-    StoreManagementRepository   storeManagementRepository;
+    StoreMgmtRepository         storeMgmtRepository;
     @Autowired
     StoreCmdServiceImpl         storeCmdService;
     Employer                    employer;
@@ -48,35 +45,48 @@ class StoreCmdServiceImplTest {
         StoreCmdDto storeCmdDto = new StoreCmdDto("starbucks",
                 createAddress("seoul", "songpa", "42"));
         //when
-        UUID uuid = storeCmdService.create(employer.getId(), storeCmdDto);
+        Long uuid = storeCmdService.create(employer.getId(), storeCmdDto);
         //then
+        // 스토어 매니지먼트 생성 검증
+        StoreMgmt storeMgmt = storeMgmtRepository.findById(uuid).orElseThrow();
+        assertEquals(uuid, storeMgmt.getId());
         //스토어 생성 검증
-        Store findStore = storeRepository.findById(uuid).orElseThrow();
+        Store findStore = storeMgmt.getStore();
         assertEquals(storeCmdDto.getName(), findStore.getName());
         assertEquals(storeCmdDto.getAddress().getCity(), findStore.getAddress().getCity());
         assertEquals(storeCmdDto.getAddress().getStreet(), findStore.getAddress().getStreet());
         assertEquals(storeCmdDto.getAddress().getZipcode(), findStore.getAddress().getZipcode());
-        // 스토어 매니지먼트 생성 검증
-        StoreManagement storeManagement = storeManagementRepository.findByStore(findStore).orElseThrow();
-        assertEquals(storeManagement.getStore().getId(), findStore.getId());
     }
 
     @Test
     @Rollback(value = false)
     public void updateStore() throws Exception {
         //given
-        Store store = new Store("starbucks",
-                createAddress("busan", "songpa", "42"),
-                employer);
-        storeRepository.save(store);
+        StoreCmdDto store = new StoreCmdDto("starbucks",
+                createAddress("busan", "songpa", "42"));
+        Long uuid = storeCmdService.create(employer.getId(), store);
+        StoreMgmt storeMgmt = storeMgmtRepository.findById(uuid).orElseThrow();
         StoreCmdDto storeCmdDto = new StoreCmdDto("coffeeBean", createAddress("seoul", "gaepo", "24"));
         //when
-        StoreCmdDto updateStore = storeCmdService.update(store.getId(), storeCmdDto);
+        StoreCmdDto updateStore = storeCmdService.update(storeMgmt.getId(), storeCmdDto);
         //then
         assertEquals(storeCmdDto.getName(), store.getName());
         assertEquals(storeCmdDto.getAddress().getZipcode(), store.getAddress().getZipcode());
         assertEquals(storeCmdDto.getAddress().getStreet(), store.getAddress().getStreet());
         assertEquals(storeCmdDto.getAddress().getCity(), store.getAddress().getCity());
+    }
+
+    @Test
+    public void deleteStore() throws Exception {
+        //given
+        StoreCmdDto store = new StoreCmdDto("starbucks",
+                createAddress("busan", "songpa", "42"));
+        Long uuid = storeCmdService.create(employer.getId(), store);
+        StoreMgmt storeMgmt = storeMgmtRepository.findById(uuid).orElseThrow();
+        //when
+        storeCmdService.delete(uuid);
+        //then
+        assertEquals(0,storeMgmtRepository.count());
     }
 
     Address createAddress(String city, String street, String zipcode) {

@@ -5,9 +5,9 @@ import chocolate.chocho.dto.StoreCmdDto;
 import java.util.UUID;
 
 public interface StoreCmdService {
-    UUID create(UUID employerId, StoreCmdDto dto);
+    Long create(UUID employerId, StoreCmdDto dto);
 
-    StoreCmdDto update(UUID storeId, StoreCmdDto dto);
+    StoreCmdDto update(Long storeMgmtId, StoreCmdDto dto);
 
-    void        delete(UUID storeId);
+    void        delete(Long storeMgmtId);
 }

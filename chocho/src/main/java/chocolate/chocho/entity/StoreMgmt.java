@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class StoreManagement {
+public class StoreMgmt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,10 +17,9 @@ public class StoreManagement {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+    // oepn close인지 상태
 
-
-
-    public StoreManagement(Store store) {
+    public StoreMgmt(Store store) {
         this.store = store;
     }
 }
