@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class EmployerQueryDto {
+public class UserCmdDto {
 
     private String  name;
     private Address address;
 
-    public EmployerQueryDto(String name, Address address) {
+    public UserCmdDto(String name, Address address) {
         this.name = name;
         this.address = address;
     }

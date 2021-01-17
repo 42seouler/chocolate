@@ -3,7 +3,6 @@ package chocolate.chocho.service.store.command;
 import chocolate.chocho.dto.StoreCmdDto;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreMgmt;
-import chocolate.chocho.repository.EmployerRepository;
 import chocolate.chocho.repository.StoreMgmtRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
