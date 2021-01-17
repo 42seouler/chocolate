@@ -1,7 +1,6 @@
 package chocolate.chocho.service.employer.query;
 
 import chocolate.chocho.dto.EmployerQueryDto;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.repository.EmployerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

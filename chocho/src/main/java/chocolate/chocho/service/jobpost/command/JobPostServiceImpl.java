@@ -2,10 +2,8 @@ package chocolate.chocho.service.jobpost.command;
 
 
 import chocolate.chocho.dto.JobPostCmdDto;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.entity.JobPost;
 import chocolate.chocho.entity.Store;
-import chocolate.chocho.repository.EmployerRepository;
 import chocolate.chocho.repository.JobPostRepository;
 import chocolate.chocho.repository.StoreMgmtRepository;
 import chocolate.chocho.repository.StoreRepository;
@@ -13,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

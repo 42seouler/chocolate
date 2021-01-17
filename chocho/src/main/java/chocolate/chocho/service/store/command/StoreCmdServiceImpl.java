@@ -1,7 +1,6 @@
 package chocolate.chocho.service.store.command;
 
 import chocolate.chocho.dto.StoreCmdDto;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreMgmt;
 import chocolate.chocho.repository.EmployerRepository;

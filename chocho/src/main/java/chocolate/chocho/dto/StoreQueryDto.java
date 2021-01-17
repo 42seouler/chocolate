@@ -1,7 +1,6 @@
 package chocolate.chocho.dto;
 
 import chocolate.chocho.entity.Address;
-import chocolate.chocho.entity.Employer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -2,20 +2,16 @@ package chocolate.chocho.service.store.command;
 
 import chocolate.chocho.dto.StoreCmdDto;
 import chocolate.chocho.entity.Address;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.entity.StoreMgmt;
 import chocolate.chocho.repository.EmployerRepository;
 import chocolate.chocho.repository.StoreMgmtRepository;
-import chocolate.chocho.repository.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
