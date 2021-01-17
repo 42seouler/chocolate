@@ -1,7 +1,6 @@
 package chocolate.chocho.service.employer.command;
 
 import chocolate.chocho.dto.EmployerCmdDto;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.repository.EmployerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

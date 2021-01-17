@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@MappedSuperclass
-public abstract class BaseUser {
+public class User {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -23,16 +20,20 @@ public abstract class BaseUser {
     private UUID    id;
     private String  name;
     private Address address;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
-    public BaseUser(String name, Address address) {
+    public User(String name, Address address) {
         this.name = name;
         this.address = address;
+        this.userRole = UserRole.EMPLOLYEE;
     }
 
-    public BaseUser(UUID id, String name, Address address) {
+    public User(UUID id, String name, Address address) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.userRole = UserRole.EMPLOLYEE;
     }
 
     public void update(String name, Address address) {

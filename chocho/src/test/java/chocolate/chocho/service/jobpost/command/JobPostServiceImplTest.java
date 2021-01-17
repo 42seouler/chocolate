@@ -2,13 +2,11 @@ package chocolate.chocho.service.jobpost.command;
 
 import chocolate.chocho.dto.JobPostCmdDto;
 import chocolate.chocho.entity.Address;
-import chocolate.chocho.entity.Employer;
 import chocolate.chocho.entity.JobPost;
 import chocolate.chocho.entity.Store;
 import chocolate.chocho.repository.EmployerRepository;
 import chocolate.chocho.repository.JobPostRepository;
 import chocolate.chocho.repository.StoreRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
