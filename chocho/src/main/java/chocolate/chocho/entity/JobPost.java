@@ -14,15 +14,15 @@ public class JobPost {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long    id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store   store;
+    @JoinColumn(name = "store_mgmt_id")
+    private StoreMgmt   storeMgmt;
     private String  title;
     private String  body;
     @Enumerated(EnumType.STRING)
     private JobOpening jobOpening;
 
-    public JobPost(Store store, String title, String body) {
-        this.store = store;
+    public JobPost(StoreMgmt storeMgmt, String title, String body) {
+        this.storeMgmt = storeMgmt;
         this.title = title;
         this.body = body;
         this.jobOpening = JobOpening.OPEN;

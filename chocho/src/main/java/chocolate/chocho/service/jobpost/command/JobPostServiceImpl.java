@@ -20,38 +20,34 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JobPostServiceImpl implements JobPostService {
 
-    private final StoreRepository       storeRepository;
     private final JobPostRepository     jobPostRepository;
     private final StoreMgmtRepository   storeMgmtRepository;
 
     @Override
-    public Long create(Long storeId, JobPostCmdDto dto) {
-        Store findStore = storeRepository.findById(storeId).orElseThrow();
-        JobPost newJobPost = new JobPost(findStore, dto.getTitle(), dto.getBody());
+    public Long create(Long storeMgmtId, JobPostCmdDto dto) {
+        StoreMgmt findStoreMgmt = storeMgmtRepository.findById(storeMgmtId).orElseThrow();
+        JobPost newJobPost = new JobPost(findStoreMgmt, dto.getTitle(), dto.getBody());
         jobPostRepository.save(newJobPost);
-        StoreMgmt storeMgmt = storeMgmtRepository.findByStore(findStore).orElseThrow();
-        storeMgmt.jobOpeningChangeState(newJobPost.getJobOpening());
+        findStoreMgmt.jobOpeningChangeState(newJobPost.getJobOpening());
         return newJobPost.getId();
     }
 
     @Override
-    public JobPostCmdDto update(Long postId, Long storeId, JobPostCmdDto dto) {
-        Store store = storeRepository.findById(storeId).orElseThrow();
+    public JobPostCmdDto update(Long postId, Long storeMgmtId, JobPostCmdDto dto) {
+        StoreMgmt storeMgmt = storeMgmtRepository.findById(storeMgmtId).orElseThrow();
         JobPost jobPost = jobPostRepository.findById(postId).orElseThrow();
         //todo 유저 불일치로 에러
         jobPost.update(dto.getTitle(), dto.getBody(), dto.getJobOpening());
-        StoreMgmt storeMgmt = storeMgmtRepository.findByStore(store).orElseThrow();
         storeMgmt.jobOpeningChangeState(jobPost.getJobOpening());
         return entityToDto(jobPost);
     }
 
     @Override
-    public void delete(Long postId, Long storeId) {
-        Store store = storeRepository.findById(storeId).orElseThrow();
+    public void delete(Long postId, Long storeMgmtId) {
+        StoreMgmt storeMgmt = storeMgmtRepository.findById(storeMgmtId).orElseThrow();
         JobPost jobPost = jobPostRepository.findById(postId).orElseThrow();
         //todo 유저 불일치 에러 추가
         jobPostRepository.delete(jobPost);
-        StoreMgmt storeMgmt = storeMgmtRepository.findByStore(store).orElseThrow();
         storeMgmt.jobOpeningChangeState(JobOpening.CLOSE);
     }
 

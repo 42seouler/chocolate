@@ -2,16 +2,13 @@ package chocolate.chocho.service.jobpost.command;
 
 import chocolate.chocho.dto.JobPostCmdDto;
 import chocolate.chocho.dto.StoreCmdDto;
-import chocolate.chocho.entity.Address;
-import chocolate.chocho.entity.JobPost;
-import chocolate.chocho.entity.Store;
+import chocolate.chocho.entity.*;
 import chocolate.chocho.entity.user.User;
 import chocolate.chocho.repository.JobPostRepository;
 import chocolate.chocho.repository.StoreMgmtRepository;
 import chocolate.chocho.repository.StoreRepository;
 import chocolate.chocho.repository.UserRepository;
 import chocolate.chocho.service.storemgmt.command.StoreMgmtCmdServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,26 +35,53 @@ class JobPostServiceImplTest {
     UserRepository userRepository;
     @Autowired
     StoreMgmtCmdServiceImpl storeMgmtCmdService;
-    Store   store;
+    StoreMgmt storeMgmt;
 
     @BeforeEach
     void setup() {
         User seouler = new User("seouler", new Address());
         userRepository.save(seouler);
         StoreCmdDto storeCmdDto = new StoreCmdDto("starbucks", new Address());
-        storeMgmtCmdService.create(seouler.getId(), storeCmdDto);
-        store = storeRepository.findByUser(seouler).orElseThrow();
+        Long storeMgmtId = storeMgmtCmdService.create(seouler.getId(), storeCmdDto);
+        storeMgmt = storeMgmtRepository.findById(storeMgmtId).orElseThrow();
     }
 
     @Test
-    @Rollback(value = false)
     public void createJobPost() throws Exception {
         //given
         JobPostCmdDto jobPostCmdDto = new JobPostCmdDto("sample", "sample_body");
         //when
-        Long postId = jobPostService.create(store.getId(), jobPostCmdDto);
+        Long postId = jobPostService.create(storeMgmt.getId(), jobPostCmdDto);
         //then
         JobPost jobPost = jobPostRepository.findById(postId).orElseThrow();
-        Assertions.assertEquals(jobPostCmdDto.getTitle(), jobPost.getTitle());
+        assertEquals(jobPostCmdDto.getTitle(), jobPost.getTitle());
+        assertEquals(jobPostCmdDto.getBody(), jobPost.getBody());
+        assertEquals(JobOpening.OPEN, storeMgmt.getJobOpening());
+    }
+
+    @Test
+    public void updateJobPost() throws Exception {
+        ///given
+        JobPostCmdDto jobPostCmdDto = new JobPostCmdDto("sample", "sample_body");
+        Long postId = jobPostService.create(storeMgmt.getId(), jobPostCmdDto);
+        JobPostCmdDto updateDto = new JobPostCmdDto("modified", "modified_body", JobOpening.CLOSE);
+        //when
+        JobPostCmdDto update = jobPostService.update(postId, storeMgmt.getId(), updateDto);
+        //then
+        assertEquals(updateDto.getTitle(), update.getTitle());
+        assertEquals(updateDto.getBody(), update.getBody());
+        assertEquals(updateDto.getJobOpening(), update.getJobOpening());
+        assertEquals(JobOpening.CLOSE, storeMgmt.getJobOpening());
+    }
+
+    @Test
+    public void deleteJobPost() throws Exception {
+        //given
+        JobPostCmdDto jobPostCmdDto = new JobPostCmdDto("sample", "sample_body");
+        Long postId = jobPostService.create(storeMgmt.getId(), jobPostCmdDto);
+        //when
+        jobPostService.delete(postId, storeMgmt.getId());
+        //then
+        assertEquals(0, jobPostRepository.count());
     }
 }
