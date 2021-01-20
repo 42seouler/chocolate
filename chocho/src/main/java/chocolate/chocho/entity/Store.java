@@ -1,12 +1,12 @@
 package chocolate.chocho.entity;
 
-import chocolate.chocho.entity.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -15,21 +15,18 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long        id;
-    private String      name;
-    private Address     address;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User        user;
+    private Long    id;
+    private String  name;
+    private Address address;
 
-    public void update(String name, Address address) {
-       this.name = name;
-       this.address = address;
-    }
-
-    public Store(String name, Address address, User user) {
+    public Store(String name, Address address) {
         this.name = name;
         this.address = address;
-        this.user = user;
+    }
+
+    public Store(Long id, String name, Address address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
     }
 }

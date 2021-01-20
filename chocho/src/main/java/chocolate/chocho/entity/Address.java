@@ -2,14 +2,11 @@ package chocolate.chocho.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
 @Getter
-@NoArgsConstructor
-@ToString
+@Embeddable
 public class Address {
 
     private String city;

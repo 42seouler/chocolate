@@ -1,6 +1,5 @@
 package chocolate.chocho.dto;
 
-import chocolate.chocho.entity.Address;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,11 +7,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StoreCmdDto {
 
-    private String      name;
-    private Address address;
+    private String name;
+    private String city;
+    private String street;
+    private String zipcode;
 
-    public StoreCmdDto(String name, Address address) {
+    public StoreCmdDto(String name, String city, String street, String zipcode) {
         this.name = name;
-        this.address = address;
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
     }
 }
