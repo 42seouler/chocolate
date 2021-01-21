@@ -5,14 +5,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class StoreCmdDto {
+public class StoreCreateDto {
 
     private String name;
     private String city;
     private String street;
     private String zipcode;
 
-    public StoreCmdDto(String name, String city, String street, String zipcode) {
+    public StoreCreateDto(String name, String city, String street, String zipcode) {
         this.name = name;
         this.city = city;
         this.street = street;

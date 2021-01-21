@@ -1,12 +1,13 @@
 package chocolate.chocho.controller;
 
-import chocolate.chocho.dto.StoreCmdDto;
+import chocolate.chocho.dto.StoreCreateDto;
+import chocolate.chocho.dto.StoreUpdateDto;
+import chocolate.chocho.entity.Store;
 import chocolate.chocho.service.StoreCmdServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,7 +43,7 @@ public class StoreCmdControllerTest {
         //given
         StoreCmdRequest storeCmdRequest = getStoreCmdRequest();
         //when, then
-        given(storeService.registerStore(any(StoreCmdDto.class))).willReturn(1L);
+        given(storeService.registerStore(any(StoreCreateDto.class))).willReturn(1L);
         mockMvc.perform(post("/api/stores")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -55,8 +56,8 @@ public class StoreCmdControllerTest {
     public void updateStore() throws Exception {
         //given
         UpdateStoreRequest updateRequest = new UpdateStoreRequest("samsung", "seoul", "songpa-dong", "zipcode");
-        StoreCmdDto dto = new StoreCmdDto("samsung", "seoul", "songpa-dong", "zipcode");
-        given(storeService.updateStore(any(Long.class), any(StoreCmdDto.class))).willReturn(dto);
+        StoreUpdateDto dto = new StoreUpdateDto("seoul", "songpa-dong", "zipcode");
+        given(storeService.updateStore(any(Long.class), any(StoreUpdateDto.class))).willReturn(dto);
         //when then
         mockMvc.perform(post("/api/stores/{id}", 1)
         .contentType(MediaType.APPLICATION_JSON)
@@ -67,6 +68,17 @@ public class StoreCmdControllerTest {
                 .andExpect(jsonPath("city").value("seoul"))
                 .andExpect(jsonPath("street").value("songpa-dong"))
                 .andExpect(jsonPath("zipcode").value("zipcode"));
+    }
+
+    @Test
+    public void deleteStore() throws Exception {
+        //given
+        Store store = new Store(1L, "starbucks", null);
+        //when //then
+        doNothing().when(storeService).deleteStore(store.getId());
+        mockMvc.perform(delete("/api/stores/{id}", store.getId()))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     private StoreCmdRequest getStoreCmdRequest() {

@@ -1,16 +1,13 @@
 package chocolate.chocho.controller;
 
-import chocolate.chocho.dto.StoreCmdDto;
-import chocolate.chocho.repository.StoreRepository;
+import chocolate.chocho.dto.StoreCreateDto;
+import chocolate.chocho.dto.StoreUpdateDto;
 import chocolate.chocho.service.StoreCmdServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,22 +19,30 @@ public class StoreCmdController {
 
     @PostMapping("/api/stores")
     public StoreCmdResponse registerStore(@RequestBody @Valid StoreCmdRequest request) {
-        StoreCmdDto storeCmdDto = new StoreCmdDto(request.getName(),
+        StoreCreateDto storeCreateDto = new StoreCreateDto(request.getName(),
                 request.getCity(),
                 request.getStreet(),
                 request.getZipcode());
-        return new StoreCmdResponse(storeService.registerStore(storeCmdDto));
+        return new StoreCmdResponse(storeService.registerStore(storeCreateDto));
     }
 
     @PostMapping("/api/stores/{id}")
     public UpdateStoreResponse updateStore(@PathVariable("id") Long id, @RequestBody @Valid UpdateStoreRequest request) {
-        StoreCmdDto Dto = new StoreCmdDto(request.getName(), request.getCity(), request.street, request.zipcode);
-        StoreCmdDto result = storeService.updateStore(id, Dto);
-        return new UpdateStoreResponse(result.getName(), result.getCity(), result.getStreet(), result.getZipcode());
+        StoreUpdateDto updateStore = storeService.updateStore(id, createUpdateDto(request));
+        return new UpdateStoreResponse(updateStore.getCity(), updateStore.getStreet(), updateStore.getZipcode());
+    }
+
+    @DeleteMapping("/api/stores/{id}")
+    public void deleteStore(@PathVariable("id") Long storeId) {
+        storeService.deleteStore(storeId);
+    }
+
+    private StoreUpdateDto createUpdateDto(UpdateStoreRequest request) {
+
+        return new StoreUpdateDto(request.city, request.getStreet(), request.getZipcode());
     }
 
     @Data
-    @NoArgsConstructor
     @AllArgsConstructor
     static class StoreCmdRequest {
 
@@ -74,7 +79,6 @@ public class StoreCmdController {
     @AllArgsConstructor
     static class UpdateStoreResponse {
 
-        private String name;
         private String city;
         private String street;
         private String zipcode;
