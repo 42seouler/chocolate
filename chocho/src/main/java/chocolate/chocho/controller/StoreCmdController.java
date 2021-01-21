@@ -26,7 +26,7 @@ public class StoreCmdController {
         return new StoreCmdResponse(storeService.registerStore(storeCreateDto));
     }
 
-    @PostMapping("/api/stores/{id}")
+    @PutMapping("/api/stores/{id}")
     public UpdateStoreResponse updateStore(@PathVariable("id") Long id, @RequestBody @Valid UpdateStoreRequest request) {
         StoreUpdateDto updateStore = storeService.updateStore(id, createUpdateDto(request));
         return new UpdateStoreResponse(updateStore.getCity(), updateStore.getStreet(), updateStore.getZipcode());

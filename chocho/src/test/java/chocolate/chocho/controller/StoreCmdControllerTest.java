@@ -47,7 +47,7 @@ public class StoreCmdControllerTest {
         mockMvc.perform(post("/api/stores")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(convertToString(storeCmdRequest)))
+                .content(asJsonString(storeCmdRequest)))
                 .andDo(print())
                 .andExpect(jsonPath("id").value(1L));
     }
@@ -59,10 +59,10 @@ public class StoreCmdControllerTest {
         StoreUpdateDto dto = new StoreUpdateDto("seoul", "songpa-dong", "zipcode");
         given(storeService.updateStore(any(Long.class), any(StoreUpdateDto.class))).willReturn(dto);
         //when then
-        mockMvc.perform(post("/api/stores/{id}", 1)
+        mockMvc.perform(put("/api/stores/{id}", 1)
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON)
-        .content(convertToString(updateRequest)))
+        .content(asJsonString(updateRequest)))
                 .andDo(print())
                 .andExpect(jsonPath("name").value("samsung"))
                 .andExpect(jsonPath("city").value("seoul"))
@@ -88,8 +88,7 @@ public class StoreCmdControllerTest {
                 "zipcode");
     }
 
-
-    private String convertToString(Object o) throws JsonProcessingException {
+    private String asJsonString(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
     }
 }

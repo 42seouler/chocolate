@@ -53,7 +53,7 @@ public class StoreCmdServiceImplTest {
         //when
         StoreUpdateDto storeUpdateDto = storeService.updateStore(store.getId(), updateDto);
         //then
-        assertEquals(updateDto.getCity(), storeUpdateDto.getCity());
+        assertEquals(updateDto.getCity(), storeUpdateDto.getCity(), "address city check");
         assertEquals(updateDto.getStreet(), storeUpdateDto.getStreet());
         assertEquals(updateDto.getZipcode(), storeUpdateDto.getZipcode());
     }
