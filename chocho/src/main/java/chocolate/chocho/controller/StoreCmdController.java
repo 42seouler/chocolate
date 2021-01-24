@@ -29,7 +29,7 @@ public class StoreCmdController {
     @PutMapping("/api/stores/{id}")
     public UpdateStoreResponse updateStore(@PathVariable("id") Long id, @RequestBody @Valid UpdateStoreRequest request) {
         StoreUpdateDto updateStore = storeService.updateStore(id, createUpdateDto(request));
-        return new UpdateStoreResponse(updateStore.getCity(), updateStore.getStreet(), updateStore.getZipcode());
+        return createUpdateStoreResponse(updateStore);
     }
 
     @DeleteMapping("/api/stores/{id}")
@@ -37,19 +37,29 @@ public class StoreCmdController {
         storeService.deleteStore(storeId);
     }
 
-    private StoreUpdateDto createUpdateDto(UpdateStoreRequest request) {
-
-        return new StoreUpdateDto(request.city, request.getStreet(), request.getZipcode());
+    private UpdateStoreResponse createUpdateStoreResponse(StoreUpdateDto updateStore) {
+        return new UpdateStoreResponse(updateStore.getName(),
+                updateStore.getCity(),
+                updateStore.getStreet(),
+                updateStore.getZipcode());
     }
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class StoreCmdRequest {
 
         private String name;
         private String city;
         private String street;
         private String zipcode;
+    }
+
+    private StoreUpdateDto createUpdateDto(UpdateStoreRequest request) {
+
+        return new StoreUpdateDto(request.city,
+                request.getStreet(),
+                request.getZipcode());
     }
 
     @Data
@@ -68,7 +78,6 @@ public class StoreCmdController {
     @AllArgsConstructor
     static class UpdateStoreRequest {
 
-        private String name;
         private String city;
         private String street;
         private String zipcode;
@@ -79,6 +88,7 @@ public class StoreCmdController {
     @AllArgsConstructor
     static class UpdateStoreResponse {
 
+        private String name;
         private String city;
         private String street;
         private String zipcode;

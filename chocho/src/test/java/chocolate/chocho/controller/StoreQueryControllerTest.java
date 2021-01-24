@@ -38,11 +38,12 @@ public class StoreQueryControllerTest {
     @Test
     public void findById() throws Exception {
         //given
-        StoreQueryDto dto = new StoreQueryDto("starbucks", "city", "street", "zipcode");
-        given(storeQueryService.findById(any(Long.class))).willReturn(dto);
+        StoreQueryDto resultDto = new StoreQueryDto("starbucks", "city", "street", "zipcode");
+        given(storeQueryService.findById(any(Long.class))).willReturn(resultDto);
         //when //then
         mockMvc.perform(get("/api/stores/{id}", 1))
                 .andExpect(jsonPath("name").value("starbucks"));
+        verify(storeQueryService, times(1)).findById(any(Long.class));
     }
 
 //    @Test

@@ -37,7 +37,6 @@ public class StoreCmdControllerTest {
     @MockBean
     StoreCmdServiceImpl storeService;
 
-
     @Test
     public void registerStore() throws Exception {
         //given
@@ -55,9 +54,9 @@ public class StoreCmdControllerTest {
     @Test
     public void updateStore() throws Exception {
         //given
-        UpdateStoreRequest updateRequest = new UpdateStoreRequest("samsung", "seoul", "songpa-dong", "zipcode");
-        StoreUpdateDto dto = new StoreUpdateDto("seoul", "songpa-dong", "zipcode");
-        given(storeService.updateStore(any(Long.class), any(StoreUpdateDto.class))).willReturn(dto);
+        UpdateStoreRequest updateRequest = new UpdateStoreRequest("seoul", "songpa-dong", "zipcode");
+        StoreUpdateDto resultDto = new StoreUpdateDto("samsung", "seoul", "songpa-dong", "zipcode");
+        given(storeService.updateStore(any(Long.class), any(StoreUpdateDto.class))).willReturn(resultDto);
         //when then
         mockMvc.perform(put("/api/stores/{id}", 1)
         .contentType(MediaType.APPLICATION_JSON)
@@ -79,6 +78,7 @@ public class StoreCmdControllerTest {
         mockMvc.perform(delete("/api/stores/{id}", store.getId()))
                 .andDo(print())
                 .andExpect(status().isOk());
+        verify(storeService, times(1)).deleteStore(any(Long.class));
     }
 
     private StoreCmdRequest getStoreCmdRequest() {

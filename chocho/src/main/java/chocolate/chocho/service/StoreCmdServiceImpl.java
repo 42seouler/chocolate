@@ -26,7 +26,7 @@ public class StoreCmdServiceImpl {
     public StoreUpdateDto updateStore(Long id, StoreUpdateDto dto) {
         Store store = storeRepository.findById(id).orElseThrow();
         store.update(dto.getCity(), dto.getStreet(), dto.getZipcode());
-        return convertToUpdateDto(store.getAddress());
+        return convertToUpdateDto(store);
     }
 
     public void deleteStore(Long storeId) {
@@ -34,7 +34,10 @@ public class StoreCmdServiceImpl {
         storeRepository.delete(store);
     }
 
-    private StoreUpdateDto convertToUpdateDto(Address address) {
-        return new StoreUpdateDto(address.getCity(), address.getStreet(), address.getZipcode());
+    private StoreUpdateDto convertToUpdateDto(Store store) {
+        return new StoreUpdateDto(store.getName(),
+                store.getAddress().getCity(),
+                store.getAddress().getStreet(),
+                store.getAddress().getZipcode());
     }
 }
