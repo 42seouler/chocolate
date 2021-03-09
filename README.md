@@ -2,7 +2,7 @@
 
 이 프로젝트는 실패한 프로젝트 경험에 관한 이야기입니다.
 
-![](https://images.velog.io/images/42seouler/post/5a3caa74-7be7-4d49-8df7-56709ebe4785/image.png)
+<p align="center"><img src="https://images.velog.io/images/42seouler/post/5a3caa74-7be7-4d49-8df7-56709ebe4785/image.png"/></p>
 
 CRUD 클론을 할 땐 무심코 따라 코드를 쳤던 것들이었습니다.  
 
